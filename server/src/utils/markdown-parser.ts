@@ -1,5 +1,5 @@
 // Citiation: RAG Course Tutorial Code. Neccesary for splitting down large document such as textbooks
-
+// Citation Update for processMarkdown: just create a way to make a new line so that I don't cut sentences in half
 import { Root, RootContent } from "mdast";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { toMarkdown } from "mdast-util-to-markdown";
@@ -72,28 +72,36 @@ export function processMarkdown(
     const content = toMarkdown(tree);
 
     const heading =
-      firstNode?.type === "heading" ? toString(firstNode) : undefined;
+      firstNode?.type === "heading" ? toString(firstNode) : "General Context";
 
     // Chunk sections if they are too large
     if (content.length > maxSectionLength) {
-      const numberChunks = Math.ceil(content.length / maxSectionLength);
-      const chunkSize = Math.ceil(content.length / numberChunks);
       const chunks = [];
+      // Split by lines to find better breakpoint for textbooks
+      const lines = content.split("\n");
+      let currentChunk = "";
 
-      for (let i = 0; i < numberChunks; i++) {
-        chunks.push(content.substring(i * chunkSize, (i + 1) * chunkSize));
+      for (const line of lines) {
+        if (
+          currentChunk.length + line.length > maxSectionLength &&
+          currentChunk.length > 0
+        ) {
+          chunks.push(currentChunk.trim());
+          currentChunk = "";
+        }
+        currentChunk += line + "\n";
       }
+      if (currentChunk) chunks.push(currentChunk.trim());
 
-      return chunks.map((chunk, i) => ({
-        content: chunk,
+      return chunks.map((chunk) => ({
+        // Prepend heading: This bakes the content into every chunk
+        content: `Topic: ${heading}\n\n${chunk}`,
         heading,
-        part: i + 1,
-        total: numberChunks,
       }));
     }
 
     return {
-      content,
+      content: `Topic: ${heading}\n\n${content}`,
       heading,
     };
   });
