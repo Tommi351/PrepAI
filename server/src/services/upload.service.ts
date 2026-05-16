@@ -1,6 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 
-export const uploadService = async ({ file, token }) => {
+type UploadServiceInput = {
+  file: Express.Multer.File;
+  token: string;
+};
+
+export const uploadService = async ({ file, token }: UploadServiceInput) => {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 

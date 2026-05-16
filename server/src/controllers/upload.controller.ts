@@ -1,9 +1,10 @@
+import { Request, Response } from "express";
 import { uploadService } from "../services/upload.service.js";
 import { insertFilesIntoDocument } from "../services/document.service.js";
 import { processService } from "../services/process.service.js";
 import { generateEmbeddingsForSections } from "../services/embedService.js";
 
-export const fileUpload = async (req, res) => {
+export const fileUpload = async (req: Request, res: Response) => {
   try {
     const file = req.file;
 
@@ -21,7 +22,7 @@ export const fileUpload = async (req, res) => {
     const uploadResult = await uploadService({ file, token });
 
     if (!uploadResult) {
-      res.status(400).json({ error: "Can't upload file" });
+      return res.status(400).json({ error: "Can't upload file" });
     }
 
     // insert uploaded file into documents table
@@ -53,11 +54,11 @@ export const fileUpload = async (req, res) => {
         });
 
         // Step B: Generate vectors and update the DB
-        await generateEmbeddingsForSections(
+        await generateEmbeddingsForSections({
           sections,
           token,
-          document.document_id,
-        );
+          document_id: document.document_id,
+        });
       } catch (bgError) {
         console.error(
           "Background processing pipeline is unsuccessful",
@@ -67,6 +68,9 @@ export const fileUpload = async (req, res) => {
     })();
   } catch (error) {
     console.error("FULL UPLOAD PIPELINE ERROR:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error instanceof Error ? error.message : "Unknown",
+    });
   }
 };

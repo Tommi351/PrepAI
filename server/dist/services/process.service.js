@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { PDFParse } from "pdf-parse";
 import { processMarkdown } from "../utils/markdown-parser.js";
-export const processService = async ({ token, document_id }) => {
+export const processService = async ({ token, document_id, }) => {
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
     // Step 1: Grab the Supabase environment variables, perform a type check for best practice

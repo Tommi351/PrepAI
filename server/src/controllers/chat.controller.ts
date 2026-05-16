@@ -1,6 +1,7 @@
 import { chatService } from "../services/chat.service.js";
+import { Request, Response } from "express";
 
-export const chatWithDocuments = async (req, res) => {
+export const chatWithDocuments = async (req: Request, res: Response) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -35,7 +36,7 @@ export const chatWithDocuments = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error.message,
+      error: error instanceof Error ? error.message : "Unknown",
     });
   }
 };

@@ -16,7 +16,7 @@ const upload = multer({
             cb(null, true);
         }
         else {
-            cb(new Error(`Unsupported file type: ${ext}`), false);
+            cb(new Error(`Unsupported file type: ${ext}`));
         }
     },
 });

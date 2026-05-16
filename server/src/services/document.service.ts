@@ -1,6 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
-export const getDocumentsFromFiles = async ({ token }) => {
+type InsertDocumentInput = {
+  filePath: string;
+  fileName: string;
+  token: string;
+};
+
+export const getDocumentsFromFiles = async ({ token }: { token: string }) => {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
@@ -40,7 +46,7 @@ export const insertFilesIntoDocument = async ({
   filePath,
   fileName,
   token,
-}) => {
+}: InsertDocumentInput) => {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 

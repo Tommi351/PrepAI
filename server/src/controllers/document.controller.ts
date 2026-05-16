@@ -1,6 +1,7 @@
 import { getDocumentsFromFiles } from "../services/document.service.js";
+import { Request, Response } from "express";
 
-export const fetchDocuments = async (req, res) => {
+export const fetchDocuments = async (req: Request, res: Response) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -20,7 +21,7 @@ export const fetchDocuments = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error.message,
+      error: error instanceof Error ? error.message : "Unknown",
     });
   }
 };

@@ -4,11 +4,22 @@ import { createClient } from "@supabase/supabase-js";
 // Initialize the pipeline/call the model
 const extractor = await pipeline("feature-extraction", "Supabase/gte-small");
 
-export const generateEmbeddingsForSections = async (
+type Section = {
+  id: string;
+  content: string;
+};
+
+type GenerateEmbeddingsInput = {
+  sections: Section[];
+  token: string;
+  document_id: string;
+};
+
+export const generateEmbeddingsForSections = async ({
   sections,
   token,
   document_id,
-) => {
+}: GenerateEmbeddingsInput) => {
   const batch_size = 50;
   // 1. Initialize Supabase client (so RLS works) and model engine
   const supabaseUrl = process.env.SUPABASE_URL;

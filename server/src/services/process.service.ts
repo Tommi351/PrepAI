@@ -2,7 +2,15 @@ import { createClient } from "@supabase/supabase-js";
 import { PDFParse } from "pdf-parse";
 import { processMarkdown } from "../utils/markdown-parser.js";
 
-export const processService = async ({ token, document_id }) => {
+type ProcessServiceInput = {
+  document_id: string;
+  token: string;
+};
+
+export const processService = async ({
+  token,
+  document_id,
+}: ProcessServiceInput) => {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
