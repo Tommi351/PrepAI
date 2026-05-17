@@ -5,8 +5,13 @@ import { fetchDocuments, getMessages } from "../services/api";
 import NavBar from "../components/dashboard/NavBar";
 import Spinner from "../components/dashboard/Spinner";
 
+type Message = {
+  role: "user" | "assistant";
+  content: string;
+};
+
 export const ChatPage = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [documents, setDocuments] = useState([]);
   const [mode, setMode] = useState("default");
   const [documentId, setDocumentId] = useState("");

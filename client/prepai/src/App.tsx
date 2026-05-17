@@ -6,9 +6,10 @@ import { Dashboard } from "./pages/Dashboard";
 import { ChatPage } from "./pages/ChatPage";
 import FilesPage from "./pages/FilesPage";
 import "../src/styles/global.css";
+import type { Session } from "@supabase/supabase-js";
 
 function App() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {

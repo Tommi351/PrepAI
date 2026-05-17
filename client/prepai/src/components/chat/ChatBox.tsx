@@ -2,6 +2,15 @@ import { useState } from "react";
 import ModeSelector from "../chat/ModeSelector";
 import DocumentSelector from "../chat/DocumentSelector";
 
+type ChatBoxProps = {
+  mode: string;
+  setMode: (mode: string) => void;
+  onSend: (msg: string) => void;
+  documents: any[];
+  documentId: string;
+  setDocumentId: (id: string) => void;
+};
+
 const ChatBox = ({
   onSend,
   mode,
@@ -9,7 +18,7 @@ const ChatBox = ({
   documents,
   documentId,
   setDocumentId,
-}) => {
+}: ChatBoxProps) => {
   const [input, setInput] = useState("");
 
   function handleSubmit(e) {
