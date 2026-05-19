@@ -13,10 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://prepai-3x0fji89s-tomis-projects-ea66ced6.vercel.app",
-    ], // 👈 allow your frontend to talk to backend
+    origin: ["http://localhost:5173", "https://prepai-pi-ten.vercel.app"], // 👈 allow your frontend to talk to backend
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
