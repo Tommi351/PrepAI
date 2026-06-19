@@ -32,7 +32,8 @@ export const chatWithDocuments = async (req: Request, res: Response) => {
       data: getMessages,
     });
   } catch (error) {
-    console.error("Failed to chat with documents");
+    console.error("Failed to chat with documents:", error);
+
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",

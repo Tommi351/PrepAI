@@ -10,6 +10,10 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error("Missing OpenAI API Key");
+}
+
 const extractor = await pipeline("feature-extraction", "Supabase/gte-small");
 
 type ChatServiceInput = {
