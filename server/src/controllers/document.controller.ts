@@ -1,7 +1,7 @@
 import { getDocumentsFromFiles } from "../services/document.service.js";
 import { Request, Response } from "express";
 
-export const fetchDocuments = async (req: Request, res: Response) => {
+export const fetchDocuments = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
