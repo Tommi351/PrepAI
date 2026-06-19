@@ -1,6 +1,7 @@
 import { chatService } from "../services/chat.service.js";
+import { Request, Response } from "express";
 
-export const chatWithDocuments = async (req, res) => {
+export const chatWithDocuments = async (req: Request, res: Response) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 

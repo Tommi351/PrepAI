@@ -12,7 +12,19 @@ const client = new OpenAI({
 
 const extractor = await pipeline("feature-extraction", "Supabase/gte-small");
 
-export const chatService = async ({ token, message, document_id, mode }) => {
+type ChatServiceInput = {
+  token: string;
+  message: string;
+  document_id: string;
+  mode: "explain" | "test" | "study_guide" | "default";
+};
+
+export const chatService = async ({
+  token,
+  message,
+  document_id,
+  mode,
+}: ChatServiceInput) => {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
@@ -61,7 +73,9 @@ export const chatService = async ({ token, message, document_id, mode }) => {
 
   const injectedDocs =
     documents && documents.length > 0
-      ? documents.map(({ content }) => content).join("\n\n")
+      ? documents
+          .map(({ content }: { content: string }) => content)
+          .join("\n\n")
       : "No relevant documents were found.";
 
   let systemPrompt;
